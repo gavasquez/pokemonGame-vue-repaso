@@ -10,7 +10,7 @@ export const usePokemonGame = () => {
   const isLoading = computed(() => pokemons.value.length === 0);
 
   const randomPokemon = computed(() => {
-    const randomIndex  = Math.floor(Math.random() * pokemonsOptions.value.length);
+    const randomIndex = Math.floor(Math.random() * pokemonsOptions.value.length);
     return pokemonsOptions.value[randomIndex];
   });
 
@@ -30,7 +30,7 @@ export const usePokemonGame = () => {
     return pokemonArray.sort(() => Math.random() - 0.5);
   };
 
-  const getNextoptions = (howMany = 4) => {
+  const getNextRound = (howMany = 4) => {
     gameStatus.value = GameStatus.Playing;
     // Guardamos los 4, cortamos de 0 a 4
     pokemonsOptions.value = pokemons.value.slice(0, howMany);
@@ -38,10 +38,10 @@ export const usePokemonGame = () => {
     pokemons.value = pokemons.value.slice(howMany);
   };
 
-  const checkAnswer = (id : number ) => {
+  const checkAnswer = (id: number) => {
     const hasWon = randomPokemon.value.id === id;
 
-    if(hasWon) {
+    if (hasWon) {
       gameStatus.value = GameStatus.Won;
       confetti({
         particleCount: 300,
@@ -51,12 +51,12 @@ export const usePokemonGame = () => {
       return;
     }
     gameStatus.value = GameStatus.Lost;
-  }
+  };
 
   onMounted(async () => {
     //await new Promise((r) => setTimeout(r, 1000));
     pokemons.value = await getPokemons();
-    getNextoptions();
+    getNextRound();
     console.log(pokemonsOptions.value);
   });
 
@@ -66,7 +66,7 @@ export const usePokemonGame = () => {
     pokemonsOptions,
     randomPokemon,
     // Methods
-    getNextoptions,
-    checkAnswer
+    getNextRound,
+    checkAnswer,
   };
 };
